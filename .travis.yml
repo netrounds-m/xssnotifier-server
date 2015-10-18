@@ -1,12 +1,13 @@
-language: go
-go:
-    - tip
-    - 1.5
+language: python
+python:
+    - "3.3"
+    - "3.4"
+    - "3.5"
 install:
-  - go get
-  - go get github.com/axw/gocov/gocov
-  - go get github.com/mattn/goveralls
-  - if ! go get github.com/golang/tools/cmd/cover; then go get golang.org/x/tools/cmd/cover; fi
+    - pip install -r requirements.txt
 script:
-    - go test -v -covermode=count -coverprofile=coverage.out ./...
-    - $HOME/gopath/bin/goveralls -coverprofile=coverage.out -service travis-ci -repotoken $COVERALLS_TOKEN
+    - cd server
+    - py.test --cov=xssnotifier --cov-report= tests
+after_success:
+    - coveralls
+

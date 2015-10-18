@@ -6,7 +6,6 @@ python:
 install:
     - pip install -r requirements.txt
 script:
-    - cd server
     - py.test --cov=xssnotifier --cov-report= tests
 after_success:
     - coveralls

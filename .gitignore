@@ -1,4 +1,4 @@
-*.pyc
+*.py[cod]
 .cache
 .coverage
 __pycache__/

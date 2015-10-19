@@ -85,6 +85,18 @@ class TestWSHandlers:
         assert wh.check_origin(None)
         assert wh.check_origin(False)
 
+    def test_con_close(self):
+        ac = ActiveConnections()
+        app = tornado.web.Application()
+        app.active_connections = ac
+        r = MockRequest()
+        wh = WSHandler(app, r)
+        ac.connections.append(wh)
+
+        wh.on_close()
+
+        assert wh not in ac.connections
+
     def test_open_connection(self):
         ac = ActiveConnections()
         app = tornado.web.Application()

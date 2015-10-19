@@ -11,7 +11,7 @@ XSS notifier is a tool intended to help developers find XSS injections in web ap
 TODO
 ====
 
-- [ ] Send complete information to ws clients
+- [x] Send complete information to ws clients
 - [ ] Improve unittesting coverage
 - [ ] Add integration tests
 - [ ] Add storage for events (Database)

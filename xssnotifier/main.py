@@ -17,14 +17,34 @@ class ActiveConnections:
             self.connections.remove(connection)
 
     def write_message(self, message):
+        # TODO: Do this in a separate thread
         for c in self.connections:
             c.write_message(json.dumps(message))
 
 
 class MainHandler(tornado.web.RequestHandler):
+    def write_message(self):
+        path = self.request.path
+        path_parts = path.split('/')
+        if len(path_parts) < 2:
+            return
+
+        user = path_parts[0]
+        file_name = path_parts[1]
+
+        self.application.active_connections.write_message({
+            'user': user,
+            'file': file_name,
+            'uri': self.request.uri,
+            # TODO: Include headers
+            # 'headers': self.request.headers.get_all(),
+        })
+
     def get(self):
-        self.write("Hello, world")
-        self.application.active_connections.write_message({'key': 'value'})
+        self.write_message()
+
+    def post(self):
+        self.write_message()
 
 
 class WSHandler(tornado.websocket.WebSocketHandler):

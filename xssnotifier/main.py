@@ -35,7 +35,7 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         self.application.active_connections.add(self)
 
     def on_close(self):
-        self.application.active_connectons.remove(self)
+        self.application.active_connections.remove(self)
 
 application = tornado.web.Application([
     (r"/ws/", WSHandler),

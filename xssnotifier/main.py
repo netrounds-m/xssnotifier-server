@@ -26,11 +26,11 @@ class MainHandler(tornado.web.RequestHandler):
     def write_message(self):
         path = self.request.path
         path_parts = path.split('/')
-        if len(path_parts) < 2:
+        if len(path_parts) <= 2:
             return
 
-        user = path_parts[0]
-        file_name = path_parts[1]
+        user = path_parts[1]
+        file_name = path_parts[2]
 
         self.application.active_connections.write_message({
             'user': user,

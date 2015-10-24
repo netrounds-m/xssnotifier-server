@@ -8,6 +8,14 @@ XSS notifier is a tool intended to help developers find XSS injections in web ap
 
 
 
+CONTRIBUTING
+============
+Any pull request aiming to improve the project is encouraged.
+
+Make sure you follow [pep8](https://www.python.org/dev/peps/pep-0008/) style and add relevant test before submitting the pull request.
+
+
+
 TODO
 ====
 

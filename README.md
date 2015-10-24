@@ -20,7 +20,7 @@ TODO
 ====
 
 - [x] Send complete information to ws clients
-- [ ] Improve unittesting coverage
+- [X] Improve unittesting coverage
 - [ ] Add integration tests
 - [ ] Add storage for events (Database)
 - [ ] Add user managing (register/login)

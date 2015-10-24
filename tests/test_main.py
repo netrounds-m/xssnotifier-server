@@ -1,4 +1,4 @@
-from xssnotifier.main import ActiveConnections, WSHandler
+from xssnotifier.main import ActiveConnections, WSHandler, MainHandler, main
 import tornado.web
 import json
 import mock
@@ -75,6 +75,51 @@ class TestActiveConnections:
         mock_connection.assert_called_once_with(json.dumps({'key': 'value'}))
 
 
+class TestMainHandler:
+    @mock.patch('xssnotifier.main.ActiveConnections.write_message')
+    def test_write_message(self, mock_write):
+        ac = ActiveConnections()
+        app = tornado.web.Application()
+        app.active_connections = ac
+        r = MockRequest()
+
+        r.path = '/myuser/somepath.js'
+        r.uri = 'http://example.com/myuser/somepath.js'
+        mh = MainHandler(app, r)
+
+        mh.write_message()
+
+        mock_write.assert_called_once_with({
+            'user': 'myuser',
+            'file': 'somepath.js',
+            'uri': 'http://example.com/myuser/somepath.js'
+        })
+
+    @mock.patch('xssnotifier.main.MainHandler.write_message')
+    def test_get(self, mock_write):
+        ac = ActiveConnections()
+        app = tornado.web.Application()
+        app.active_connections = ac
+        r = MockRequest()
+        mh = MainHandler(app, r)
+
+        mh.get()
+
+        assert mock_write.call_count == 1, 'Didn\'t call handler exactly once'
+
+    @mock.patch('xssnotifier.main.MainHandler.write_message')
+    def test_post(self, mock_write):
+        ac = ActiveConnections()
+        app = tornado.web.Application()
+        app.active_connections = ac
+        r = MockRequest()
+        mh = MainHandler(app, r)
+
+        mh.post()
+
+        assert mock_write.call_count == 1, 'Didn\'t call handler exactly once'
+
+
 class TestWSHandlers:
     def test_check_origin(self):
         ac = ActiveConnections()
@@ -107,3 +152,12 @@ class TestWSHandlers:
         wh.open()
 
         assert wh in ac.connections
+
+
+@mock.patch('tornado.web.Application.listen')
+@mock.patch('tornado.platform.epoll.EPollIOLoop.start')
+def test_main(mock_start, mock_listen):
+    main()
+
+    assert mock_listen.call_count == 1, 'Not listening once'
+    assert mock_start.call_count == 1, 'Not started once'

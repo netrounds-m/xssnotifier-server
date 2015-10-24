@@ -8,6 +8,25 @@ XSS notifier is a tool intended to help developers find XSS injections in web ap
 
 
 
+RUNNING (DEV)
+=============
+
+_First run_
+ * Install python (3.x)
+ * Install python virtualenv
+ * Generate virtualenv `virtualenv --no-site-packages venv`
+
+_Every run_
+ * Activate virtualenv `source venv/bin/activate`
+
+_Unittests_
+ * `py.test tests`
+
+_Running_
+ * `python xssnotifier/main.py`
+
+
+
 CONTRIBUTING
 ============
 Any pull request aiming to improve the project is encouraged.

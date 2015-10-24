@@ -57,12 +57,16 @@ class WSHandler(tornado.websocket.WebSocketHandler):
     def on_close(self):
         self.application.active_connections.remove(self)
 
-application = tornado.web.Application([
-    (r"/ws/", WSHandler),
-    (r"/.*", MainHandler),
-])
 
-if __name__ == "__main__":
+def main():
+    application = tornado.web.Application([
+        (r'/ws/', WSHandler),
+        (r'/.*', MainHandler),
+    ])
+
     application.active_connections = ActiveConnections()
     application.listen(8080)
     tornado.ioloop.IOLoop.current().start()
+
+if __name__ == '__main__':
+    main()
